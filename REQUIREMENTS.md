@@ -43,6 +43,12 @@ These are the notes from a meeting with the frontend developer that describe wha
 - price : INTEGER
 - [OPTIONAL] category : VARCHAR
 
+products table:
+| id | name | price | category |
+|:------------------:|:-------:|:-------:|:----------:|
+| SERIAL PRIMARY KEY | VARCHAR | INTEGER | VARCHAR |
+| | | | |
+
 #### User
 
 - id : SERIAL PRIMARY KEY
@@ -50,11 +56,21 @@ These are the notes from a meeting with the frontend developer that describe wha
 - last_name : VARCHAR
 - hashed_password : VARCHAR
 
+users table:
+| id | first_name | last_name | hashed_password |
+|:------------------:|:----------:|:---------:|:---------------:|
+| SERIAL PRIMARY KEY | VARCHAR | VARCHAR | VARCHAR |
+
 #### Orders
 
 - id : SERIAL PRIMARY KEY
 - status : VARCHAR
 - user_id : INTEGER (foreign key to users table)
+
+orders table:
+| id | status | user_id |
+|:------------------:|:-------:|:-------:|
+| SERIAL PRIMARY KEY | VARCHAR | INTEGER |
 
 #### Order_products
 
@@ -62,3 +78,8 @@ These are the notes from a meeting with the frontend developer that describe wha
 - product_id : INTEGER (foreign key to products table)
 - quantity : INTEGER
 - user_id : INTEGER (foreign key to users table)
+
+order_products table:
+| id | product_id | quantity | user_id |
+|:------------------:|:----------:|:--------:|:-------:|
+| SERIAL PRIMARY KEY | INTEGER | INTEGER | INTEGER |
