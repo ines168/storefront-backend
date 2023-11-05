@@ -16,6 +16,16 @@ These are the notes from a meeting with the frontend developer that describe wha
 - [OPTIONAL] Top 5 most popular products (GET `/five-most-popular`)
 - [OPTIONAL] Products by category (GET `/products/category/:category`)
 
+| Method      | HTTP verb | Endpoint                       | Params   | Body                    |  Token  |
+| ----------- | --------- | ------------------------------ | -------- | ----------------------- | :-----: |
+| Index       | GET       | `/products`                    |          |                         |         |
+| Show        | GET       | `/products/:id`                | id       |                         |         |
+| Create      | POST      | `/products`                    |          | name, price, [category] | &check; |
+| Edit        | PUT       | `/products/:id`                | id       | name, price, [category] | &check; |
+| Delete      | DELETE    | `/products/:id`                | id       |                         | &check; |
+| Top 5       | GET       | `/five-most-popular`           |          |                         |         |
+| By Category | GET       | `/products/category/:category` | category |                         |         |
+
 #### Users
 
 - Index (GET `/users`)
@@ -23,6 +33,14 @@ These are the notes from a meeting with the frontend developer that describe wha
 - Create (POST `/users`)
 - Edit [token required] (PUT `/users/:id`)
 - Delete [token required] (DELETE `/users/:id`)
+
+| Method | HTTP verb | Endpoint     | Params | Body                                   |  Token  |
+| ------ | --------- | ------------ | ------ | -------------------------------------- | :-----: |
+| Index  | GET       | `/users`     |        |                                        |         |
+| Show   | GET       | `/users/:id` | id     |                                        |         |
+| Create | POST      | `/users`     |        | first_name, last_name, hashed_password |         |
+| Edit   | PUT       | `/users/:id` | id     | first_name, last_name, hashed_password | &check; |
+| Delete | DELETE    | `/users/:id` | id     |                                        | &check; |
 
 #### Orders
 
@@ -33,6 +51,18 @@ These are the notes from a meeting with the frontend developer that describe wha
 - Delete (DELETE `/orders/:id`)
 - Current Order by user (GET `/orders/:id/:status`)
 - [OPTIONAL] Completed Orders by user (GET `/completed-orders/:id`)
+- Add product to order( POST `/orders/:id/product`);
+
+| Method           | HTTP verb | Endpoint                | Params     | Body                 |  Token  |
+| ---------------- | --------- | ----------------------- | ---------- | -------------------- | :-----: |
+| Index            | GET       | `/orders`               |            |                      | &check; |
+| Show             | GET       | `/orders/:id`           | id         |                      | &check; |
+| Create           | POST      | `/orders`               |            | status, user_id      |         |
+| Edit             | PUT       | `/orders/:id`           | id         | status, user_id      | &check; |
+| Delete           | DELETE    | `/orders/:id`           | id         |                      | &check; |
+| Current order    | GET       | `/orders/:id/:status`   | id, status |                      | &check; |
+| Completed orders | GET       | `/completed-orders/:id` | id         |                      | &check; |
+| Add product      | POST      | `/orders/:id/product`   | id         | product_id, quantity |         |
 
 ## Data Shapes
 
