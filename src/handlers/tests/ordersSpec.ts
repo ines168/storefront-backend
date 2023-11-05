@@ -13,6 +13,8 @@ let productId: number;
 describe("Test orders endpoints", async () => {
   let testOrder: Order;
   let savedOrder: Order;
+  let token: string =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjozLCJmaXJzdF9uYW1lIjoiUGV0ZXIiLCJsYXN0X25hbWUiOiJQYW4iLCJoYXNoZWRfcGFzc3dvcmQiOiIkMmIkMTAkblZ5enQ3OEpsVHVWWENHQmVRaDlvZVZoWFZ6clNPQ3R0eHB1WW5jYm9kU2N3VG15RzNmWU8ifSwiaWF0IjoxNjk4OTMzNjk3fQ.MDY2M1wF3dcDbDfJ2mRzyTe4ARaECR7qC9nxxH2wq8o";
 
   beforeAll(async () => {
     const testUser: User = await userStore.create({
@@ -37,21 +39,38 @@ describe("Test orders endpoints", async () => {
     savedOrder = response.body;
     expect(response.status).toBe(200);
   });
-  it("expects successful response and list of orders from GET/orders", async () => {
+  it("expects authorization failure 401 from GET/orders without token", async () => {
     const response = await request.get("/orders");
+    expect(response.status).toBe(401);
+  });
+  it("expects successful response and list of orders from GET/orders with token", async () => {
+    const response = await request.get("/orders").set("Authorization", `Bearer ${token}`);
     expect(response.status).toBe(200);
   });
-  it("expects successful response and show order from GET/orders/:id", async () => {
+  it("expects authorization failure 401 from GET/orders/:id without token", async () => {
     const response = await request.get(`/orders/${savedOrder.id}`);
+    expect(response.status).toBe(401);
+  });
+  it("expects successful response and show order from GET/orders/:id with token", async () => {
+    const response = await request.get(`/orders/${savedOrder.id}`).set("Authorization", `Bearer ${token}`);
     expect(response.status).toBe(200);
   });
-  it("expects successful response and edited orders from PUT/orders/:id", async () => {
+  it("expects authorization failure 401 from PUT/orders/:id without token", async () => {
     testOrder.status = "closed";
     const response = await request.put(`/orders/${savedOrder.id}`).send(testOrder);
+    expect(response.status).toBe(401);
+  });
+  it("expects successful response and edited orders from PUT/orders/:id with token", async () => {
+    testOrder.status = "closed";
+    const response = await request.put(`/orders/${savedOrder.id}`).send(testOrder).set("Authorization", `Bearer ${token}`);
     expect(response.status).toBe(200);
   });
-  it("expects successful response and deleted order from DELETE/orders/:id", async () => {
+  it("expects authorization failure 401 from DELETE/orders/:id without token", async () => {
     const response = await request.delete(`/orders/${savedOrder.id}`);
+    expect(response.status).toBe(401);
+  });
+  it("expects successful response and deleted order from DELETE/orders/:id", async () => {
+    const response = await request.delete(`/orders/${savedOrder.id}`).set("Authorization", `Bearer ${token}`);
     expect(response.status).toBe(200);
   });
   it("expects successful response and product added to order from POST/orders/:id/product", async () => {

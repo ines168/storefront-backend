@@ -20,12 +20,23 @@ describe("Test dashboard endpoints", async () => {
     await userStore.delete(userId);
   });
 
-  it("expects successful response and GET/users/:id/current", async () => {
+  let token: string =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjozLCJmaXJzdF9uYW1lIjoiUGV0ZXIiLCJsYXN0X25hbWUiOiJQYW4iLCJoYXNoZWRfcGFzc3dvcmQiOiIkMmIkMTAkblZ5enQ3OEpsVHVWWENHQmVRaDlvZVZoWFZ6clNPQ3R0eHB1WW5jYm9kU2N3VG15RzNmWU8ifSwiaWF0IjoxNjk4OTMzNjk3fQ.MDY2M1wF3dcDbDfJ2mRzyTe4ARaECR7qC9nxxH2wq8o";
+
+  it("expects authorization failure 401 from GET/users/:id/current without token", async () => {
     const response = await request.get(`/users/${userId}/current`);
+    expect(response.status).toBe(401);
+  });
+  it("expects successful response and GET/users/:id/current with token", async () => {
+    const response = await request.get(`/users/${userId}/current`).set("Authorization", `Bearer ${token}`);
     expect(response.status).toBe(200);
   });
-  it("expects successful response and GET/completed-orders/:id", async () => {
+  it("expects authorization failure 401 from GET/completed-orders/:id without token", async () => {
     const response = await request.get(`/completed-orders/${userId}`);
+    expect(response.status).toBe(401);
+  });
+  it("expects successful response and GET/completed-orders/:id with token", async () => {
+    const response = await request.get(`/completed-orders/${userId}`).set("Authorization", `Bearer ${token}`);
     expect(response.status).toBe(200);
   });
   it("expects successful response and GET/five-most-popular", async () => {
