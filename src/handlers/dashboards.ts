@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import { DashboardQueries } from "../services/dashboard";
+import verifyToken from "../utils/verifyToken";
 
 const dashboard = new DashboardQueries();
 
@@ -43,8 +44,8 @@ const currentOrder = async (req: Request, res: Response) => {
 };
 
 const dashboard_routes = (app: express.Application) => {
-  app.get("/users/:id/current", currentOrder);
-  app.get("/completed-orders/:id", completedOrdersByUser);
+  app.get("/users/:id/current", verifyToken, currentOrder);
+  app.get("/completed-orders/:id", verifyToken, completedOrdersByUser);
   app.get("/five-most-popular", fiveMostPopular);
   app.get("/products/category/:category", productsByCategory);
 };
